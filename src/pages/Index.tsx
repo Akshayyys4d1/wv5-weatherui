@@ -153,7 +153,7 @@ const Index = () => {
       )}
 
       {/* Main Content */}
-      <div className="relative z-10">
+      <div className="relative z-20">
       <div id="navigation-section">
         <TVNavigation 
           onAIClick={() => setIsAIOpen(true)} 

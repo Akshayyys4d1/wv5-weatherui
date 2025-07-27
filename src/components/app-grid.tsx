@@ -4,31 +4,31 @@ import { useKeyboardNavigation } from "@/hooks/use-keyboard-nav";
 const apps = [{
   id: 1,
   name: "Netflix",
-  icon: "./images/apps/netflix.png",
+  icon: "/lovable-uploads/599d16b9-b0e6-4a74-bc27-4aa0b86e9ecd.png",
   url: "https://netflix.com",
   gradient: "from-red-600 to-red-500"
 }, {
   id: 2,
   name: "Plex",
-  icon: "./images/apps/plex.png",
+  icon: "/lovable-uploads/64389f52-3299-419b-b9b5-aae1d2df3543.png",
   url: "https://plex.tv",
   gradient: "from-yellow-500 to-orange-500"
 }, {
   id: 3,
   name: "YouTube",
-  icon: "./images/apps/youtube.png",
+  icon: "/lovable-uploads/e8b3109a-64cf-4410-b638-a8676c56581e.png",
   url: "https://youtube.com",
   gradient: "from-red-500 to-red-600"
 }, {
   id: 4,
   name: "PlutoTV",
-  icon: "./images/apps/plutotv.png",
+  icon: "/lovable-uploads/07a9d064-32df-4e0f-9aa1-5186c1d0bde0.png",
   url: "https://pluto.tv",
   gradient: "from-blue-600 to-blue-700"
 }, {
   id: 5,
   name: "YouTube Music",
-  icon: "./images/apps/youtube-music.png",
+  icon: "/lovable-uploads/61239c6c-e06c-4ef0-a455-84c853a91787.png",
   url: "https://music.youtube.com",
   gradient: "from-red-400 to-orange-500"
 }];

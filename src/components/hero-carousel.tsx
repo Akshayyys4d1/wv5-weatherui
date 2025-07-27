@@ -12,14 +12,14 @@ const heroContent = [{
   id: 1,
   title: "The Last of Us",
   description: "A gripping post-apocalyptic drama series",
-  image: "/images/carousel/1.png",
+  image: "/lovable-uploads/e3512ed2-dea3-48fa-896d-60fe22ca41e5.png",
   category: "Series",
   rating: "9.0"
 }, {
   id: 2,
-  title: "Featured Movie",
-  description: "Discover amazing content with AI assistance",
-  image: "/images/carousel/2.png",
+  title: "F1 The Movie",
+  description: "High-octane racing action and drama",
+  image: "/lovable-uploads/6072c52e-fa60-4a04-bbdd-b6bce7e9d7d8.png",
   category: "Movie",
   rating: "8.5"
 }, {

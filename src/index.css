@@ -233,8 +233,9 @@ All colors MUST be HSL.
   /* Enhanced Rain Effects */
   .rain-overlay {
     background: 
-      radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.15) 0%, rgba(135, 206, 235, 0.08) 40%, transparent 70%),
-      radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+      radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.25) 0%, rgba(135, 206, 235, 0.15) 40%, transparent 70%),
+      radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.18) 0%, rgba(30, 144, 255, 0.12) 30%, transparent 60%),
+      radial-gradient(ellipse at top right, rgba(173, 216, 230, 0.08) 0%, transparent 50%);
   }
 
   .rain-drop {
@@ -259,7 +260,7 @@ All colors MUST be HSL.
 
   /* Cloud Effects */
   .cloudy-overlay {
-    background: radial-gradient(ellipse at top, rgba(200, 200, 220, 0.05) 0%, transparent 80%);
+    background: radial-gradient(ellipse at top, rgba(200, 200, 220, 0.12) 0%, rgba(220, 220, 240, 0.06) 50%, transparent 80%);
   }
 
   .cloud {
@@ -334,16 +335,16 @@ All colors MUST be HSL.
 
   /* Sunny Effects */
   .sunny-overlay {
-    background: radial-gradient(ellipse at top right, rgba(255, 215, 100, 0.06) 0%, transparent 60%);
+    background: radial-gradient(ellipse at top right, rgba(255, 215, 100, 0.15) 0%, rgba(255, 223, 0, 0.08) 40%, transparent 60%);
   }
 
   .sun-flare {
     position: absolute;
     top: 5%;
     right: 5%;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 215, 100, 0.08) 30%, transparent 70%);
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 215, 100, 0.15) 30%, rgba(255, 223, 0, 0.08) 50%, transparent 70%);
     border-radius: 50%;
     animation: sunPulse 4s ease-in-out infinite;
   }
