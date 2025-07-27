@@ -132,7 +132,7 @@ export const AppGrid = ({
           return <div key={app.id} ref={el => appRefs.current[index] = el} className={cn("tv-tile relative group cursor-pointer", "w-64 h-32 md:w-72 md:h-40", "flex-shrink-0")} onClick={() => handleAppClick(app.id, index)} tabIndex={0} onFocus={() => handleFocus(index)} onBlur={handleBlur}>
                 {/* App icon container */}
                 <div className={cn("w-full h-full rounded-2xl overflow-hidden", "bg-gradient-to-br", app.gradient, "flex items-center justify-center", "transition-all duration-300", "border border-white/10", isFocused && isGridFocused && "border-white")}>
-                  <img src={app.icon} alt={app.name} className="w-full h-full object-cover p-0" />
+                  <img src={app.icon} alt={app.name} className="w-full h-full object-cover " />
                 </div>
 
                 {/* App name - only show when focused/hovered */}
