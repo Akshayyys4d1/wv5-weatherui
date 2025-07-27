@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Mic, MicOff, X, Brain, RotateCcw, Sparkles, Zap } from "lucide-react";
+import { Mic, MicOff, X, Brain, RotateCcw, Sparkles, Zap, CheckCircle, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useKeyboardNavigation } from "@/hooks/use-keyboard-nav";
 import { GeminiLiveAudio } from "@/lib/gemini-live-audio";
+import { TaskExecutor } from "@/lib/task-executor";
 import type { TranscriptionResult } from "@/types/transcription";
 
 interface AIOverlayProps {
@@ -19,6 +20,7 @@ export const AIOverlay = ({
   const [status, setStatus] = useState("Ready to speak");
   const [error, setError] = useState("");
   const [lastDetectedTask, setLastDetectedTask] = useState<TranscriptionResult | null>(null);
+  const [executionResult, setExecutionResult] = useState<{ success: boolean; message: string } | null>(null);
   const geminiLiveRef = useRef<GeminiLiveAudio | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -60,11 +62,24 @@ export const AIOverlay = ({
   // Initialize Gemini Live Audio when overlay opens
   useEffect(() => {
     if (isOpen && !geminiLiveRef.current) {
+      // Request notification permission
+      TaskExecutor.requestNotificationPermission();
+      
       geminiLiveRef.current = new GeminiLiveAudio();
       geminiLiveRef.current.onStatusChange = setStatus;
       geminiLiveRef.current.onError = setError;
-      geminiLiveRef.current.onTaskDetected = (result: TranscriptionResult) => {
+      geminiLiveRef.current.onTaskDetected = async (result: TranscriptionResult) => {
         setLastDetectedTask(result);
+        
+        // Execute the task if it's not 'none'
+        if (result.task.type !== 'none') {
+          const execResult = await TaskExecutor.executeTask(result.task);
+          setExecutionResult(execResult);
+          
+          // Auto-clear execution result after 4 seconds
+          setTimeout(() => setExecutionResult(null), 4000);
+        }
+        
         // Auto-clear the task after 5 seconds
         setTimeout(() => setLastDetectedTask(null), 5000);
       };
@@ -78,6 +93,7 @@ export const AIOverlay = ({
         setStatus("Ready to speak");
         setError("");
         setLastDetectedTask(null);
+        setExecutionResult(null);
       }
     };
   }, [isOpen]);
@@ -222,6 +238,35 @@ export const AIOverlay = ({
                   </span>
                 )}
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Execution Result Display */}
+        {executionResult && (
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-80">
+            <div className={cn(
+              "glass-panel rounded-xl p-3 animate-fade-in",
+              executionResult.success 
+                ? "border border-blue-400/30 bg-blue-500/10"
+                : "border border-red-400/30 bg-red-500/10"
+            )}>
+              <div className="flex items-center space-x-2">
+                {executionResult.success ? (
+                  <CheckCircle className="w-4 h-4 text-blue-400" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 text-red-400" />
+                )}
+                <span className={cn(
+                  "text-xs font-semibold uppercase tracking-wide",
+                  executionResult.success ? "text-blue-400" : "text-red-400"
+                )}>
+                  {executionResult.success ? "Executed" : "Failed"}
+                </span>
+              </div>
+              <p className="text-sm text-white/90 mt-1">
+                {executionResult.message}
+              </p>
             </div>
           </div>
         )}

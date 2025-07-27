@@ -41,6 +41,11 @@ Your entire response MUST be a valid JSON object with two keys: "transcription" 
     *   **Open Application:** For "open youtube", "start spotify".
         \`{ "type": "open_app", "payload": { "name": "youtube" } }\`
 
+    *   **Open Application with Search:** For "play linus tech tips", "search for marvel movies on netflix", "find jazz music on spotify".
+        \`{ "type": "open_app", "payload": { "name": "youtube", "search_query": "linus tech tips" } }\`
+        \`{ "type": "open_app", "payload": { "name": "netflix", "search_query": "marvel movies" } }\`
+        \`{ "type": "open_app", "payload": { "name": "spotify", "search_query": "jazz music" } }\`
+
     *   **Set Timer/Reminder:** For "remind me in 10 minutes", "set a timer for 5 mins".
         \`{ "type": "timer", "payload": { "duration": "10 minutes" } }\`
 
@@ -52,6 +57,11 @@ Your entire response MUST be a valid JSON object with two keys: "transcription" 
 
     *   **Information/Service Request:** For "I'm hungry", "show me the hotel menu".
         - "I'm hungry" or "show menu" -> \`{ "type": "service_request", "payload": { "request": "view_menu" } }\`
+
+**Important Notes:**
+- For search commands, extract the search term from phrases like "play X", "find X", "search for X", "show me X"
+- Common app names: youtube, netflix, spotify, plex, "youtube music", "pluto tv", "prime video"
+- Always include search_query when the user wants to find specific content
 
 Your entire response must be ONLY the JSON object and nothing else.`;
 
@@ -96,7 +106,9 @@ export const transcribeAndIdentifyTask = async (audioBlob: Blob): Promise<Transc
                                     device: { type: Type.STRING, description: "Device for environment control." },
                                     action: { type: Type.STRING, description: "Action for environment control." },
                                     value: { type: Type.STRING, description: "Value for an action (e.g., scene name)." },
-                                    request: { type: Type.STRING, description: "The specific service request." }
+                                    request: { type: Type.STRING, description: "The specific service request." },
+                                    search_query: { type: Type.STRING, description: "Search query for content within apps." },
+                                    query: { type: Type.STRING, description: "Alternative search query field." }
                                 }
                             }
                         },

@@ -7,6 +7,8 @@ export interface Task {
     action?: string;
     value?: string;
     request?: string;
+    search_query?: string;
+    query?: string;
   };
 }
 
