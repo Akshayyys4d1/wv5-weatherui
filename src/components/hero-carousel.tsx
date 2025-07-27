@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useKeyboardNavigation } from "@/hooks/use-keyboard-nav";
 
-type WeatherType = 'rainy' | 'cloudy' | 'sunny';
 interface HeroCarouselProps {
   isFocused?: boolean;
   onFocusChange?: (focused: boolean) => void;
@@ -45,19 +44,7 @@ export const HeroCarousel = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isCarouselFocused, setIsCarouselFocused] = useState(false);
-  const [weather, setWeather] = useState<WeatherType>('rainy');
   const carouselRef = useRef<HTMLDivElement>(null);
-
-  // Cycle through weather types on component mount
-  useEffect(() => {
-    const weatherTypes: WeatherType[] = ['rainy', 'cloudy', 'sunny'];
-    const savedIndex = sessionStorage.getItem('weatherIndex');
-    const currentIndex = savedIndex ? parseInt(savedIndex) : 0;
-    const nextIndex = (currentIndex + 1) % weatherTypes.length;
-    
-    setWeather(weatherTypes[nextIndex]);
-    sessionStorage.setItem('weatherIndex', nextIndex.toString());
-  }, []);
   useEffect(() => {
     if (isFocused && carouselRef.current) {
       carouselRef.current.focus();
@@ -101,37 +88,6 @@ export const HeroCarousel = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           </div>)}
       </div>
-
-      {/* Weather overlay */}
-      {weather === 'rainy' && (
-        <div className="weather-overlay rain-overlay">
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-        </div>
-      )}
-
-      {weather === 'cloudy' && (
-        <div className="weather-overlay cloudy-overlay">
-          <div className="cloud cloud-1"></div>
-          <div className="cloud cloud-2"></div>
-          <div className="cloud cloud-3"></div>
-        </div>
-      )}
-
-      {weather === 'sunny' && (
-        <div className="weather-overlay sunny-overlay">
-          <div className="sun-flare"></div>
-          <div className="sun-rays"></div>
-        </div>
-      )}
 
       {/* Content overlay with frosted glass */}
       <div className="absolute bottom-0 left-0 right-0 p-8">

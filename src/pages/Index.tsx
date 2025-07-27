@@ -8,6 +8,8 @@ import { AppsView } from "@/components/apps-view";
 import { useKeyboardNavigation } from "@/hooks/use-keyboard-nav";
 import { cn } from "@/lib/utils";
 
+type WeatherType = 'rainy' | 'cloudy' | 'sunny';
+
 const Index = () => {
   const [isAIOpen, setIsAIOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState(1); // 0: nav, 1: carousel, 2: apps, 3: recommended
@@ -16,6 +18,18 @@ const Index = () => {
   const [carouselFocused, setCarouselFocused] = useState(false);
   const [appsFocused, setAppsFocused] = useState(false);
   const [recommendedFocused, setRecommendedFocused] = useState(false);
+  const [weather, setWeather] = useState<WeatherType>('rainy');
+
+  // Cycle through weather types on component mount
+  useEffect(() => {
+    const weatherTypes: WeatherType[] = ['rainy', 'cloudy', 'sunny'];
+    const savedIndex = sessionStorage.getItem('weatherIndex');
+    const currentIndex = savedIndex ? parseInt(savedIndex) : 0;
+    const nextIndex = (currentIndex + 1) % weatherTypes.length;
+    
+    setWeather(weatherTypes[nextIndex]);
+    sessionStorage.setItem('weatherIndex', nextIndex.toString());
+  }, []);
 
   // Global keyboard navigation for section switching
   useKeyboardNavigation({
@@ -106,7 +120,40 @@ const Index = () => {
 
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Weather Effects Background */}
+      {weather === 'rainy' && (
+        <div className="weather-overlay rain-overlay fixed inset-0 z-0">
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+          <div className="rain-drop"></div>
+        </div>
+      )}
+
+      {weather === 'cloudy' && (
+        <div className="weather-overlay cloudy-overlay fixed inset-0 z-0">
+          <div className="cloud cloud-1"></div>
+          <div className="cloud cloud-2"></div>
+          <div className="cloud cloud-3"></div>
+        </div>
+      )}
+
+      {weather === 'sunny' && (
+        <div className="weather-overlay sunny-overlay fixed inset-0 z-0">
+          <div className="sun-flare"></div>
+          <div className="sun-rays"></div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <div className="relative z-10">
       <div id="navigation-section">
         <TVNavigation 
           onAIClick={() => setIsAIOpen(true)} 
@@ -126,9 +173,9 @@ const Index = () => {
         </div>
       ) : (
         <>
-          {/* Hero Carousel - Full Width */}
+          {/* Hero Carousel - With Margins */}
           <div id="carousel-section" className={cn(
-            "transition-all duration-500",
+            "transition-all duration-500 mx-8",
             currentSection === 1 ? "opacity-100" : "opacity-60"
           )}>
             <HeroCarousel 
@@ -161,11 +208,12 @@ const Index = () => {
         </>
       )}
 
-      {/* AI Overlay */}
-      <AIOverlay
-        isOpen={isAIOpen}
-        onClose={() => setIsAIOpen(false)}
-      />
+        {/* AI Overlay */}
+        <AIOverlay
+          isOpen={isAIOpen}
+          onClose={() => setIsAIOpen(false)}
+        />
+      </div>
     </div>
   );
 };
