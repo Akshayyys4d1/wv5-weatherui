@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useKeyboardNavigation } from "@/hooks/use-keyboard-nav";
+
 const apps = [{
   id: 1,
   name: "Netflix",
@@ -32,10 +33,12 @@ const apps = [{
   url: "https://music.youtube.com",
   gradient: "from-red-400 to-orange-500"
 }];
+
 interface AppGridProps {
   isFocused?: boolean;
   onFocusChange?: (focused: boolean) => void;
 }
+
 export const AppGrid = ({
   isFocused = false,
   onFocusChange
@@ -45,6 +48,7 @@ export const AppGrid = ({
   const [isGridFocused, setIsGridFocused] = useState(false);
   const appRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (isFocused && appRefs.current[0]) {
       appRefs.current[0].focus();
@@ -52,6 +56,7 @@ export const AppGrid = ({
       scrollToApp(0);
     }
   }, [isFocused]);
+
   const scrollToApp = (index: number) => {
     if (containerRef.current && appRefs.current[index]) {
       const container = containerRef.current;
@@ -68,9 +73,11 @@ export const AppGrid = ({
       });
     }
   };
+
   useEffect(() => {
     onFocusChange?.(isGridFocused);
   }, [isGridFocused, onFocusChange]);
+
   useKeyboardNavigation({
     onArrowLeft: () => {
       if (isGridFocused && focusedIndex > 0) {
@@ -98,6 +105,7 @@ export const AppGrid = ({
     },
     disabled: false
   });
+
   const handleAppClick = (appId: number, index: number) => {
     const app = apps.find(a => a.id === appId);
     if (app?.url) {
@@ -106,11 +114,13 @@ export const AppGrid = ({
     setFocusedIndex(index);
     setIsGridFocused(true);
   };
+
   const handleFocus = (index: number) => {
     setFocusedIndex(index);
     setIsGridFocused(true);
     scrollToApp(index);
   };
+
   const handleBlur = () => {
     // Small delay to check if focus moved to another app
     setTimeout(() => {
@@ -120,31 +130,71 @@ export const AppGrid = ({
       }
     }, 10);
   };
-  return <div className="space-y-6 animate-fade-in">
+
+  return (
+    <div className="space-y-6 animate-fade-in">
       <h2 className="text-2xl font-semibold text-foreground/90 px-2">Your Apps</h2>
       <div className="w-full overflow-hidden">
-        <div ref={containerRef} className="flex space-x-8 p-2 pb-4 overflow-x-auto scrollbar-hide" style={{
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none'
-      }}>
+        <div 
+          ref={containerRef} 
+          className="flex space-x-8 p-2 pb-4 overflow-x-auto scrollbar-hide" 
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
+        >
           {apps.map((app, index) => {
-          const isFocused = focusedIndex === index;
-          return <div key={app.id} ref={el => appRefs.current[index] = el} className={cn("tv-tile relative group cursor-pointer", "w-64 h-32 md:w-72 md:h-40", "flex-shrink-0")} onClick={() => handleAppClick(app.id, index)} tabIndex={0} onFocus={() => handleFocus(index)} onBlur={handleBlur}>
+            const isFocused = focusedIndex === index;
+            return (
+              <div
+                key={app.id}
+                ref={el => appRefs.current[index] = el}
+                className={cn(
+                  "tv-tile relative group cursor-pointer",
+                  "w-64 h-32 md:w-72 md:h-40",
+                  "flex-shrink-0"
+                )}
+                onClick={() => handleAppClick(app.id, index)}
+                tabIndex={0}
+                onFocus={() => handleFocus(index)}
+                onBlur={handleBlur}
+              >
                 {/* App icon container */}
-                <div className={cn("w-full h-full rounded-2xl overflow-hidden", "bg-gradient-to-br", app.gradient, "flex items-center justify-center", "transition-all duration-300", "border border-white/10", isFocused && isGridFocused && "border-white")}>
-                  <img src={app.icon} alt={app.name} className="w-full h-full object-cover " />
+                <div className={cn(
+                  "w-full h-full rounded-2xl overflow-hidden",
+                  "bg-white/30 backdrop-blur-sm",
+                  "flex items-center justify-center",
+                  "transition-all duration-300",
+                  "border border-white/20",
+                  isFocused && isGridFocused && "border-white ring-2 ring-white/30"
+                )}>
+                  <img 
+                    src={app.icon} 
+                    alt={app.name} 
+                    className="w-full h-full object-cover" 
+                  />
                 </div>
 
                 {/* App name - only show when focused/hovered */}
-                <div className={cn("absolute -bottom-10 left-1/2 transform -translate-x-1/2", "glass-panel px-4 py-2 rounded-lg", "transition-all duration-300", "opacity-0 translate-y-2", "group-hover:opacity-100 group-hover:translate-y-0", "group-focus:opacity-100 group-focus:translate-y-0", "whitespace-nowrap z-10")}>
+                <div className={cn(
+                  "absolute -bottom-10 left-1/2 transform -translate-x-1/2",
+                  "glass-panel px-4 py-2 rounded-lg",
+                  "transition-all duration-300",
+                  "opacity-0 translate-y-2",
+                  "group-hover:opacity-100 group-hover:translate-y-0",
+                  "group-focus:opacity-100 group-focus:translate-y-0",
+                  "whitespace-nowrap z-10"
+                )}>
                   <span className="text-base font-medium text-foreground">
                     {app.name}
                   </span>
                 </div>
 
-              </div>;
-        })}
+              </div>
+            );
+          })}
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };

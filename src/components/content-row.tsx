@@ -3,6 +3,7 @@ import { Play, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useKeyboardNavigation } from "@/hooks/use-keyboard-nav";
+
 interface ContentItem {
   id: number;
   title: string;
@@ -11,12 +12,14 @@ interface ContentItem {
   genre?: string;
   rating?: string;
 }
+
 interface ContentRowProps {
   title: string;
   items?: ContentItem[];
   isFocused?: boolean;
   onFocusChange?: (focused: boolean) => void;
 }
+
 const defaultMovies: ContentItem[] = [{
   id: 1,
   title: "Friends",
@@ -60,6 +63,7 @@ const defaultMovies: ContentItem[] = [{
   genre: "Sci-Fi",
   rating: "8.8"
 }];
+
 export const ContentRow = ({
   title,
   items = defaultMovies,
@@ -119,10 +123,12 @@ export const ContentRow = ({
     },
     disabled: false
   });
+
   const handleFocus = (index: number) => {
     setFocusedIndex(index);
     setIsRowFocused(true);
   };
+
   const handleBlur = () => {
     setTimeout(() => {
       const hasFocusedElement = itemRefs.current.some(ref => ref === document.activeElement);
@@ -131,7 +137,9 @@ export const ContentRow = ({
       }
     }, 10);
   };
-  return <div className="space-y-6 animate-fade-in">
+
+  return (
+    <div className="space-y-6 animate-fade-in">
       <h2 className="text-2xl font-semibold text-foreground/90 px-2">{title}</h2>
       <div className="w-full overflow-hidden">
         <div 
@@ -143,21 +151,44 @@ export const ContentRow = ({
           }}
         >
           {items.map((item, index) => {
-          const isFocusedItem = focusedIndex === index;
-          return <div key={item.id} ref={el => itemRefs.current[index] = el} className={cn("tv-content relative group cursor-pointer flex-shrink-0", "w-44 md:w-52", isFocusedItem && isRowFocused && "border-2 border-white rounded-xl")} onMouseEnter={() => setHoveredItem(item.id)} onMouseLeave={() => setHoveredItem(null)} tabIndex={0} onFocus={() => handleFocus(index)} onBlur={handleBlur}>
+            const isFocusedItem = focusedIndex === index;
+            return (
+              <div
+                key={item.id}
+                ref={el => itemRefs.current[index] = el}
+                className={cn(
+                  "tv-content relative group cursor-pointer flex-shrink-0",
+                  "w-64 md:w-80",
+                  isFocusedItem && isRowFocused && "border-2 border-white rounded-xl"
+                )}
+                onMouseEnter={() => setHoveredItem(item.id)}
+                onMouseLeave={() => setHoveredItem(null)}
+                tabIndex={0}
+                onFocus={() => handleFocus(index)}
+                onBlur={handleBlur}
+              >
                 <div className="relative overflow-hidden rounded-xl">
-                  <img src={item.image} alt={item.title} className="w-full h-64 md:h-72 object-cover transition-all duration-500 group-hover:scale-110 group-focus:scale-105" />
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full h-44 md:h-52 object-cover transition-all duration-500 group-hover:scale-110 group-focus:scale-105" 
+                  />
                   
                   {/* Gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                   
                   {/* Play button overlay */}
-                  <div className={cn("absolute inset-0 flex items-center justify-center", "transition-all duration-300", hoveredItem === item.id || isFocusedItem ? "opacity-100" : "opacity-0")}>
+                  <div className={cn(
+                    "absolute inset-0 flex items-center justify-center",
+                    "transition-all duration-300",
+                    hoveredItem === item.id || isFocusedItem ? "opacity-100" : "opacity-0"
+                  )}>
                     
                   </div>
 
                   {/* Floating metadata overlay */}
-                  {(hoveredItem === item.id || isFocusedItem) && <div className="absolute bottom-4 left-4 right-4 glass-panel p-4 rounded-lg animate-fade-in">
+                  {(hoveredItem === item.id || isFocusedItem) && (
+                    <div className="absolute bottom-4 left-4 right-4 glass-panel p-4 rounded-lg animate-fade-in">
                       <div className="space-y-2">
                         <h3 className="font-semibold text-white text-lg leading-tight">{item.title}</h3>
                         <div className="flex items-center justify-between">
@@ -172,16 +203,23 @@ export const ContentRow = ({
                             </div>
                           </div>
                         </div>
-                        <Button size="sm" variant="outline" className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-xs">
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-xs"
+                        >
                           <Plus className="w-3 h-3 mr-1" />
                           Add to Watchlist
                         </Button>
                       </div>
-                    </div>}
+                    </div>
+                  )}
                 </div>
-              </div>;
-        })}
+              </div>
+            );
+          })}
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };

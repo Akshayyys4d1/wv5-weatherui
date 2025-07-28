@@ -8,7 +8,7 @@ import { AppsView } from "@/components/apps-view";
 import { useKeyboardNavigation } from "@/hooks/use-keyboard-nav";
 import { cn } from "@/lib/utils";
 
-type WeatherType = 'rainy' | 'cloudy' | 'sunny';
+type WeatherType = 'rainy' | 'stormy' | 'cloudy' | 'sunny';
 
 const Index = () => {
   const [isAIOpen, setIsAIOpen] = useState(false);
@@ -22,7 +22,7 @@ const Index = () => {
 
   // Cycle through weather types on component mount
   useEffect(() => {
-    const weatherTypes: WeatherType[] = ['rainy', 'cloudy', 'sunny'];
+    const weatherTypes: WeatherType[] = ['rainy', 'stormy', 'cloudy', 'sunny'];
     const savedIndex = sessionStorage.getItem('weatherIndex');
     const currentIndex = savedIndex ? parseInt(savedIndex) : 0;
     const nextIndex = (currentIndex + 1) % weatherTypes.length;
@@ -124,16 +124,20 @@ const Index = () => {
       {/* Weather Effects Background */}
       {weather === 'rainy' && (
         <div className="weather-overlay rain-overlay fixed inset-0 z-0">
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
-          <div className="rain-drop"></div>
+          {Array.from({ length: 15 }, (_, i) => (
+            <div key={i} className="rain-drop"></div>
+          ))}
+        </div>
+      )}
+
+      {weather === 'stormy' && (
+        <div className="weather-overlay stormy-overlay fixed inset-0 z-0">
+          {Array.from({ length: 15 }, (_, i) => (
+            <div key={i} className="rain-drop"></div>
+          ))}
+          <div className="lightning"></div>
+          <div className="lightning"></div>
+          <div className="lightning"></div>
         </div>
       )}
 
