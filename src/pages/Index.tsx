@@ -135,9 +135,7 @@ const Index = () => {
           {Array.from({ length: 15 }, (_, i) => (
             <div key={i} className="rain-drop"></div>
           ))}
-          <div className="lightning"></div>
-          <div className="lightning"></div>
-          <div className="lightning"></div>
+          <div className="lightning-flash"></div>
         </div>
       )}
 

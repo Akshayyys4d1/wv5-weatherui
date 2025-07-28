@@ -162,7 +162,7 @@ export const AppGrid = ({
                 {/* App icon container */}
                 <div className={cn(
                   "w-full h-full rounded-2xl overflow-hidden",
-                  "bg-white/30 backdrop-blur-sm",
+                  "bg-white/10 backdrop-blur-sm",
                   "flex items-center justify-center",
                   "transition-all duration-300",
                   "border border-white/20",

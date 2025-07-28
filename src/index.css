@@ -271,28 +271,22 @@ All colors MUST be HSL.
   .rain-drop:nth-child(14) { left: 88%; animation-duration: 2.6s; animation-delay: 2.6s; }
   .rain-drop:nth-child(15) { left: 93%; animation-duration: 2.3s; animation-delay: 2.8s; }
 
-  /* Lightning Effects */
-  .lightning {
+  /* Lightning Effects - Background Flash */
+  .lightning-flash {
     position: absolute;
     top: 0;
-    right: 15%;
-    width: 3px;
-    height: 100vh;
-    background: linear-gradient(to bottom, 
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(135, 206, 250, 0.8) 20%,
-      rgba(255, 255, 255, 0.7) 40%,
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at top right, 
+      rgba(255, 255, 255, 0.15) 0%, 
+      rgba(135, 206, 250, 0.08) 30%, 
       transparent 60%
     );
     opacity: 0;
-    animation: lightning 8s infinite;
-    border-radius: 2px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    animation: lightningFlash 8s infinite;
+    pointer-events: none;
   }
-
-  .lightning:nth-child(1) { right: 20%; animation-delay: 0s; }
-  .lightning:nth-child(2) { right: 25%; animation-delay: 4s; width: 2px; }
-  .lightning:nth-child(3) { right: 15%; animation-delay: 6s; width: 4px; }
 
   /* Cloud Effects */
   .cloudy-overlay {
@@ -486,16 +480,16 @@ All colors MUST be HSL.
     }
   }
 
-  /* Lightning Animation */
-  @keyframes lightning {
+  /* Lightning Flash Animation */
+  @keyframes lightningFlash {
     0%, 90%, 100% {
       opacity: 0;
     }
-    1%, 3% {
+    91%, 93% {
       opacity: 1;
     }
-    2% {
-      opacity: 0.8;
+    92% {
+      opacity: 0.3;
     }
   }
 
