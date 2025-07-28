@@ -78,7 +78,7 @@ export const HeroCarousel = ({
   const currentItem = heroContent[currentSlide];
   return <div ref={carouselRef} className="relative w-full h-[70vh] overflow-hidden group focus-within:outline-none nav-focus" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onFocus={() => setIsCarouselFocused(true)} onBlur={() => setIsCarouselFocused(false)} tabIndex={0}>
       {/* Background with parallax effect */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0" style={{ WebkitMaskImage: 'linear-gradient(to bottom, #000 80%, transparent 100%)', maskImage: 'linear-gradient(to bottom, #000 80%, transparent 100%)' }}>
         {heroContent.map((item, index) => <div key={item.id} className={cn("absolute inset-0 transition-all duration-1000 ease-out", index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105")}>
             <div className="w-full h-full bg-cover bg-center transform transition-transform duration-12000" style={{
           backgroundImage: `url(${item.image})`,
@@ -88,6 +88,11 @@ export const HeroCarousel = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           </div>)}
       </div>
+
+      {/* Bottom fade-out gradient overlay */}
+      <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 z-20" style={{
+        background: "linear-gradient(to bottom, transparent, var(--background, #0f0f0f) 90%)"
+      }} />
 
       {/* Content overlay with frosted glass */}
       <div className="absolute bottom-0 left-0 right-0 p-8">
