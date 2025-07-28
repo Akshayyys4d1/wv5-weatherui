@@ -155,7 +155,7 @@ export class GeminiLiveAudio {
         }
       };
 
-      // Record in 3-second chunks for command processing
+      // Record in 5-second chunks for command processing to reduce duplicates
       this.secondaryMediaRecorder.start();
       this.processingInterval = setInterval(() => {
         if (this.secondaryMediaRecorder?.state === 'recording') {
@@ -164,9 +164,9 @@ export class GeminiLiveAudio {
             if (this.isRecording && this.secondaryMediaRecorder?.state === 'inactive') {
               this.secondaryMediaRecorder.start();
             }
-          }, 100);
+          }, 200);
         }
-      }, 3000);
+      }, 5000);
 
     } catch (error) {
       console.warn('Secondary audio processing failed to start:', error);

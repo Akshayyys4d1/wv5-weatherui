@@ -76,7 +76,7 @@ export const HeroCarousel = ({
     }
   }, [isHovered, isCarouselFocused]);
   const currentItem = heroContent[currentSlide];
-  return <div ref={carouselRef} className="relative w-full h-[70vh] overflow-hidden group focus-within:outline-none nav-focus rounded-2xl" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onFocus={() => setIsCarouselFocused(true)} onBlur={() => setIsCarouselFocused(false)} tabIndex={0}>
+  return <div ref={carouselRef} className="relative w-full h-[70vh] overflow-hidden group focus-within:outline-none nav-focus" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onFocus={() => setIsCarouselFocused(true)} onBlur={() => setIsCarouselFocused(false)} tabIndex={0}>
       {/* Background with parallax effect */}
       <div className="absolute inset-0">
         {heroContent.map((item, index) => <div key={item.id} className={cn("absolute inset-0 transition-all duration-1000 ease-out", index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105")}>

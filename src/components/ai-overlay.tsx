@@ -76,6 +76,11 @@ export const AIOverlay = ({
           const execResult = await TaskExecutor.executeTask(result.task);
           setExecutionResult(execResult);
           
+          // Auto-close the overlay and stop recording after command execution
+          setTimeout(() => {
+            handleClose();
+          }, 1500);
+          
           // Auto-clear execution result after 4 seconds
           setTimeout(() => setExecutionResult(null), 4000);
         }

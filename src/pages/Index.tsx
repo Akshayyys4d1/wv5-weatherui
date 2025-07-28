@@ -175,9 +175,9 @@ const Index = () => {
         </div>
       ) : (
         <>
-          {/* Hero Carousel - With Margins */}
+          {/* Hero Carousel - Full Width */}
           <div id="carousel-section" className={cn(
-            "transition-all duration-500 mx-8",
+            "transition-all duration-500",
             currentSection === 1 ? "opacity-100" : "opacity-60"
           )}>
             <HeroCarousel 
